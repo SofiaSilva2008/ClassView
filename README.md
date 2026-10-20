@@ -111,7 +111,3 @@ python app.py
 ```
 
 A aplicação ficará disponível para acesso no navegador em `http://127.0.0.1:5000`.
-
-```
-
-```
