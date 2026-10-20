@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassView</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styleInicial.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <h1 class="logo1">Class<span>View</span></h1>
+        </div>
+        <nav>
+            <a href="#recursos">Recursos</a>
+            <a href="#comoFunciona">Como Funciona</a>
+            <a href="{{ url_for('auth.login') }}">Entrar</a>
+        </nav>
+    </header>
+
+    <section class="intro">
+        <div class="intro-text">
+            <h2 class="belleza-text">Gestão Educacional</h2>
+            <h2 class="allura_text">Inteligente & Eficiente</h2>
+            <p>Plataforma completa para professores, coordenadores e alunos. Relatórios automatizados, gráficos em tempo real e comunicação integrada.</p>
+            <div class="buttons">
+                <a href="{{ url_for('auth.login') }}" class="btn-comecar">COMEÇAR AGORA</a>
+                <a href="#" class="btn-demonstracao">SOLICITAR DEMONSTRAÇÃO</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="recursos" id="recursos">
+        <h2 class="belleza-text">Recursos Poderosos</h2>
+        <p>Tudo que você precisa para gerenciar o processo pedagógico com excelência.</p>
+        <div class="recursos-cards">
+            <div class="card">
+                <img src="{{ url_for('static', filename='icons/icon1.png') }}" alt="Icone 1">
+                <p>Gere relatórios completos com um clique. Visualize dados de desempenho, frequência e evolução dos alunos de forma clara e objetiva.</p>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='icons/icon2.png') }}"  alt="Icone 2">
+                <p>Análises visuais em tempo real com gráficos de linha, barras e radar. Acompanhe tendências e identifique padrões facilmente.</p>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='icons/icon3.png') }}"  alt="Icone 3">
+                <p>Envie avisos, relatórios e mensagens diretamente para alunos e responsáveis. Mantenha todos informados e engajados.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="como-funciona" id="comoFunciona">
+        <h2>Como Funciona</h2>
+        <p>Simples, rápido e eficiente em apenas 3 passos</p>
+        <div class="como-funciona-cards">
+            <div class="card">
+                <h3>1. Cadastre-se</h3>
+                <p>Crie sua conta como Professor, Coordenador ou Aluno. É rápido e gratuito para começar.</p>
+            </div>
+            <div class="card">
+                <h3>2. Registre Avaliações</h3>
+                <p>Insira notas, observações e competências dos alunos em formulários intuitivos.</p>
+            </div>
+            <div class="card">
+                <h3>3. Gere Relatórios</h3>
+                <p>Visualize gráficos, exporte PDFs e compartilhe resultados com um clique.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="entrar">
+        <h2>Pronto para Transformar sua Gestão Educacional?</h2>
+        <div class="buttons">
+            <a href="{{ url_for('auth.cadastro') }}" class="btn-comecar">CRIAR CONTA GRATUITA</a>
+            <a href="{{ url_for('auth.login') }}" class="btn-demonstracao">JÁ TENHO CONTA</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Class View. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

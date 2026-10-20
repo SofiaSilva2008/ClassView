@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>ClassView - Adicionar Aluno</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+
+    <nav>
+      <a href="{{ url_for('coordenador.dashboard_coordenador') }}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a href="{{ url_for('coordenador.adicionar_coordenador') }}" class="active">
+        <i class="fa-solid fa-plus"></i> Gerenciamento
+      </a>
+
+      <a href="{{ url_for('professor.relatorios') }}">
+        <i class="fa-regular fa-file-lines"></i> Relatório
+      </a>
+
+      <a href="{{ url_for('professor.AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{{ url_for('coordenador.perfil_coordenador') }}" >
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+
+    <a href="{{ url_for('auth.logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <main class="content">
+
+    <header class="topbar">
+      <h2 class="belleza-text">Adicionar Aluno</h2>
+    </header>
+
+    <section class="turmas-section">
+      <form method="POST" class="filtros">
+
+        <div class="filtro">
+          <label>Nome do Aluno</label>
+          <input type="text" name="nome" placeholder="Digite o nome do aluno" required>
+        </div>
+
+        <div class="filtro">
+          <label>Email</label>
+          <input type="text" name="email" placeholder="Digite o email do aluno" required>
+        </div>
+
+        <div class="filtro">
+          <label>Turma</label>
+          <select name="turma_id" required>
+            {% for turma in turmas %}
+              <option value="{{ turma.id }}">{{ turma.nome }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+      </form>
+
+      <div class="turmas-actions" style="margin-top: 24px;">
+        <button class="btn-solid" onclick="document.querySelector('form').submit()">
+          Salvar Aluno
+        </button>
+        <a href="{{ url_for('coordenador.adicionar_coordenador') }}" class="btn-outline">
+          Voltar
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>ClassView - Turma {{ turma.nome }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilAluno.css') }}">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+
+    <nav>
+      <a href="{{ url_for('coordenador.dashboard_coordenador') }}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a href="{{ url_for('coordenador.adicionar_coordenador') }}">
+        <i class="fa-solid fa-plus"></i> Gerenciamento
+      </a>
+
+      <a class="active" href="{{ url_for('professor.relatorios') }}">
+        <i class="fa-regular fa-file-lines"></i> Relatórios
+      </a>
+
+      <a href="{{ url_for('professor.AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{{ url_for('coordenador.perfil_coordenador') }}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+
+    <a href="{{ url_for('auth.logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h2 class="belleza-text">Turma {{ turma.nome }}</h2>
+
+      <div class="professor">
+        <div class="avatar">{{ nome[:2] }}</div>
+        <div>
+          <strong>Coord. {{ nome }}</strong>
+          <small>Coordenador(a)</small>
+        </div>
+      </div>
+    </header>
+
+    <!-- INFO DA TURMA -->
+    <section class="student-list">
+
+      <div class="student-card">
+        <div class="student-info">
+          <div class="student-avatar">
+            {{ turma.nome[:2] | upper }}
+          </div>
+          <div>
+            <h3>Turma {{ turma.nome }}</h3>
+            <p>Frequência geral: <strong>{{ frequencia_geral }}%</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; text-align:right;">
+        <a href="{{ url_for('coordenador.relatorio_coordenador', turma_id=turma.id) }}"
+            class="btn-relatorio">
+            <i class="fa-regular fa-file-lines"></i> Gerar relatório da turma
+        </a>
+    </div>
+
+          <!-- SEÇÃO DE DISCIPLINAS DA TURMA -->
+      <div class="student-card" style="flex-direction: column; align-items: stretch; padding: 20px; margin-top: 20px;">
+        <h3><i class="fa-solid fa-book"></i> Disciplina(s)</h3>
+        <div style="margin-top: 10px;">
+          {% if disciplinas %}
+            <ul style="list-style: none; padding: 0;">
+              {% for disc in disciplinas %}
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee; color: #444;">
+                  <i class="fa-solid fa-bookmark" style="color: #6c5ce7; margin-right: 8px;"></i>
+                  <strong>{{ disc.nome }}</strong> — <small>Prof. {{ disc.professor_disciplina }}</small>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p style="color: #777; margin-top: 5px;">Nenhuma disciplina vinculada a esta turma.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- LISTA DE ALUNOS -->
+      <h3 style="margin-top:30px;">Alunos da turma</h3>
+
+      {% if alunos %}
+        {% for aluno in alunos %}
+          <div class="student-card">
+            <div class="student-info">
+              <div class="student-avatar">
+                {{ aluno.nome[:2] | upper }}
+              </div>
+              <div>
+                <h4>{{ aluno.nome }}</h4>
+                <p>{{ aluno.email }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>Nenhum aluno cadastrado nesta turma.</p>
+      {% endif %}
+
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>

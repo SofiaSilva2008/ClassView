@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <title>Ata de Presença - {{ turma_nome }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+      body { font-family: Inter, sans-serif; background:#f5f6f8; padding:20px; }
+      h1 { text-align:center; color:#1f3a5f; }
+      table { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; }
+      th, td { padding:10px; text-align:center; border:1px solid #e0e0e0; }
+      th { background:#1f3a5f; color:#fff; }
+      textarea { width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; }
+      a { margin-top:15px; padding:10px 20px; background:#1f3a5f; color:#fff; border:none; border-radius:6px; cursor:pointer; display: inline-block; }
+      button { margin-top:15px; padding:10px 20px; background:#1f3a5f; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+      details { margin-top:25px; background:#fff; padding:15px; border-radius:8px; }
+    </style>
+  </head>
+
+  <body>
+    <a href="{{ url_for('professor.dashboardProfessor') }}">
+      <i class="fa-solid fa-arrow-left"></i> Voltar
+    </a>
+    <h1>Ata de Presença – {{ turma_nome }}</h1>
+
+    <form method="get" action="{{ url_for('professor.ata', turma_id=turma_id) }}">
+        <label for="disciplina_id">Disciplina:</label>
+        <select name="disciplina_id" id="disciplina_id" onchange="this.form.submit()">
+            {% for d in disciplinas %}
+                <!-- Usamos |string ou conversão se houver divergência de tipo entre int e str -->
+                <option value="{{ d.id }}" {% if d.id|string == disciplina_id|string %}selected{% endif %}>
+                    {{ d.nome }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+
+    <form method="POST" action="{{ url_for('professor.ata', turma_id=turma_id, disciplina_id=disciplina_id) }}">
+      <input type="hidden" name="disciplina_id" value="{{ disciplina_id }}">
+      <table>
+        <thead>
+          <tr>
+            <th>Aluno</th>
+            {% for data in datas_aulas %}
+              <th>{{ data }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for aluno in alunos %}
+          <tr>
+            <td>{{ aluno.nome }}</td>
+            {% for data in datas_aulas %}
+            <td>
+              <input type="checkbox"
+                    name="presenca-{{ aluno.id }}-{{ data }}"
+                    {% if aluno.presencas.get(data, 0) %}checked{% endif %}>
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <br>
+
+      <label><strong>📝 Observação da aula ({{ data_hoje }})</strong></label>
+      <textarea name="observacao" rows="3" placeholder="Ex: Aula sobre pirâmides e prismas..."></textarea>
+
+      <br>
+
+      <button type="submit">
+        <i class="fa-solid fa-floppy-disk"></i> Salvar Ata
+      </button>
+
+    </form>
+
+    <details>
+      <summary><strong>📚 Aulas anteriores</strong></summary>
+
+      {% for obs in observacoes %}
+        <div style="margin-top:10px; padding:10px; border-left:4px solid #1f3a5f;">
+          <strong>Aula dia {{ obs.data | replace('-', '/') }}</strong><br>
+          {{ obs.texto }}
+        </div>
+      {% else %}
+        <p>Nenhuma aula registrada.</p>
+      {% endfor %}
+    </details>
+
+  </body>
+</html>

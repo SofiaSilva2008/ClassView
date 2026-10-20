@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório da Turma - {{ turma.nome }}</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #1f3a5f;
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            color: #1f3a5f;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #555;
+            font-size: 11px;
+        }
+
+        .info-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .info-box table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-box td {
+            border: none;
+            padding: 4px 0;
+            font-size: 11px;
+        }
+
+        h2 {
+            color: #1f3a5f;
+            font-size: 14px;
+            border-bottom: 1px solid #1f3a5f;
+            padding-bottom: 5px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        table.dados {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table.dados th {
+            background-color: #1f3a5f;
+            color: #ffffff;
+            padding: 8px;
+            text-align: left;
+            font-size: 11px;
+        }
+
+        table.dados td {
+            border: 1px solid #ddd;
+            padding: 7px 8px;
+            font-size: 11px;
+        }
+
+        table.dados tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 10px;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <div class="header">
+        <h1>Relatório Institucional da Turma {{ turma.nome }}</h1>
+        <p>Sistema ClassView — Gestão Educacional</p>
+    </div>
+
+    <!-- INFORMAÇÕES GERAIS -->
+    <div class="student-card" style="display: block;">
+    <div class="student-info" style="align-items: flex-start; gap: 20px;">
+        <div style="flex: 1;">
+        <h3>Turma {{ turma.nome }}</h3>
+        <p style="color: #666; margin-bottom: 8px;"><i class="fa-regular fa-calendar"></i> Data de emissão: {{ data }}</p>
+        <p style="color: #666; margin-bottom: 12px;"><i class="fa-solid fa-user-tie"></i> Coordenador(a): {{ coordenador }}</p>
+        
+        <!-- LISTA DE DISCIPLINAS E PROFESSORES CORRESPONDENTES -->
+        <div style="margin: 15px 0; background: #f8fafc; padding: 12px; border-radius: 6px; border-left: 4px solid #1f3a5f;">
+            <strong style="color: #1f3a5f; display: block; margin-bottom: 6px;">Disciplinas e Professores:</strong>
+            <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 0.95rem;">
+            {% if disciplinas %}
+                {% for disc in disciplinas %}
+                <li style="margin-bottom: 4px;">
+                    <strong>{{ disc.nome }}</strong> — Prof. {{ disc.professor_disciplina }}
+                </li>
+                {% endfor %}
+            {% else %}
+                <li>Nenhuma disciplina registrada.</li>
+            {% endif %}
+            </ul>
+        </div>
+
+        <div class="turma-resumo-grid">
+            <div class="resumo-item">
+            <span>Frequência Geral</span>
+            <strong>{{ frequencia }}%</strong>
+            </div>
+            <div class="resumo-item">
+            <span>Média da Turma</span>
+            <strong>{{ media_geral }}</strong>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- DESEMPENHO POR ALUNO / DISCIPLINA -->
+    <h2>Desempenho dos Alunos por Disciplina</h2>
+
+    <table class="dados">
+        <thead>
+            <tr>
+                <th>Aluno(a)</th>
+                <th>Disciplina</th>
+                <th style="text-align: center;">Média</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno.aluno_nome }}</td>
+                <td>{{ aluno.disciplina_nome }}</td>
+                <td style="text-align: center;">{{ "%.2f"|format(aluno.media) if aluno.media is not none else '—' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- RODAPÉ -->
+    <div class="footer">
+        Documento gerado automaticamente pelo sistema <strong>ClassView</strong> em {{ data }}
+    </div>
+
+</body>
+</html>

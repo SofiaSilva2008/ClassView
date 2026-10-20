@@ -1,0 +1,455 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+/* BODY */
+body {
+  min-height: 100vh;
+  background: #f5f6f8;
+}
+
+/* APP */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 240px;
+  background: #1f3a5f;
+  color: #fff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  margin-bottom: 32px;
+}
+
+.logo span {
+  font-weight: 300;
+  color: #c19f50;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sidebar nav a i {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.logout {
+  margin-top: auto;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.85;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout:hover {
+  opacity: 1;
+}
+
+/* ================= CONTENT ================= */
+.content {
+  flex: 1;
+  background: #f5f6f8;
+  overflow-y: auto;
+}
+
+/* ================= TOPBAR ================= */
+.topbar {
+  background: #ffffff;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 10px;
+}
+
+.belleza-text {
+  font-family: 'Belleza', sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+/* ================= PROFESSOR ================= */
+.professor {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.professor div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.professor strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+.professor small {
+  font-size: 12px;
+  color: #777;
+}
+
+/* AVATAR */
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: #d1a954;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= MAIN ================= */
+main {
+  padding: 24px 32px;
+}
+
+/* ================= CARDS ================= */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  border: 2px solid #c19f50;
+}
+
+.card h3 {
+  font-family: 'Belleza', sans-serif;
+  font-size: 16px;
+  font-weight: 200;
+  margin-bottom: 8px;
+}
+
+.card .value {
+  font-size: 28px;
+  font-family: 'Belleza', sans-serif;
+  font-weight: 700;
+}
+
+.card i{
+    color: #c19f50;
+    font-size: 16px
+}
+
+.card .sub,
+.card .alert {
+  font-size: 13px;
+  color: #777;
+  font-family: 'Belleza', sans-serif;
+}
+
+/* ================= BOTTOM ================= */
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 16px 32px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+button.outline {
+  font-family: 'Playfair Display', sans-serif;
+  background: #fff;
+  border: 1px solid #11223f;
+  color: #11223f;
+}
+
+button.solid {
+  font-family: 'Playfair Display', sans-serif;
+  background: #d1a954;
+  color: #fff;
+}
+
+/* ================= VISÃO GERAL DAS TURMAS ================= */
+
+.turmas-section {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 32px;
+  margin-top: 24px;
+  border: 1px solid #e6e6e6;
+}
+
+.turmas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.turmas-header h2 {
+  font-family: 'Belleza', sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+/* Botões específicos da visão de turmas */
+.turmas-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.turmas-actions .btn-outline {
+  font-family: 'Playfair Display', sans-serif;
+  background: #fff;
+  border: 1px solid #11223f;
+  color: #11223f;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.turmas-actions .btn-solid {
+  font-family: 'Playfair Display', sans-serif;
+  background: #d1a954;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Filtros */
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.filtro {
+  display: flex;
+  flex-direction: column;
+}
+
+.filtro label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1f3a5f;
+}
+
+.filtro select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  background: #f9f9f9;
+  font-size: 14px;
+}
+
+.coordenador-actions {
+  margin-top: 32px;
+  background: #ffffff;
+  padding: 24px 32px;
+  border-radius: 16px;
+  border: 1px solid #e6e6e6;
+}
+
+.coordenador-actions .actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.coordenador-actions .btn-solid,
+.coordenador-actions .btn-outline {
+  text-decoration: none;
+  padding: 14px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.coordenador-actions .btn-solid {
+  background: #d1a954;
+  color: #fff;
+}
+
+.coordenador-actions .btn-outline {
+  background: #fff;
+  border: 1px solid #11223f;
+  color: #11223f;
+}
+
+/* ================= TURMAS E ALUNOS (DASHBOARD) ================= */
+
+.turmas-lista {
+  margin-top: 48px;
+}
+
+.turmas-lista h2 {
+  margin-bottom: 20px;
+}
+
+
+.turma-box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  border: 1px solid #e6e6e6;
+}
+
+.turma-box h3 {
+  font-family: 'Belleza', sans-serif;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.turma-box small {
+  font-size: 14px;
+  color: #777;
+  font-weight: normal;
+}
+
+.alunos-lista {
+  list-style: none;
+  padding-left: 0;
+}
+
+.alunos-lista li {
+  padding: 6px 0;
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sem-alunos {
+  font-size: 14px;
+  color: #999;
+  font-style: italic;
+}
+
+.btn.primary {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #1f3a5f;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn.primary:hover {
+  background: #163056;
+}
+
+.alerta-risco {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.alerta-sucesso {
+    color: #2ecc71;
+    font-weight: 500;
+}
+
+/* ================= FONTS ================= */
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Regular.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Medium.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-SemiBold.ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Belleza';
+  src: url('../fonts/Belleza-Regular.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Regular.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../fonts/PlayfairDisplay-Regular.ttf');
+  font-weight: 400;
+}
+

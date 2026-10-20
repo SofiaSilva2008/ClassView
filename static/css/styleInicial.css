@@ -1,0 +1,213 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+header {
+    background-color: #1d3353;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+}
+
+header .logo h1 {
+    margin: 0;
+}
+
+.logo1 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 40px;
+  font-weight: 50;
+  margin-bottom: 32px;
+}
+
+.logo1 span {
+  font-weight: 300;
+  color: #c19f50;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+.intro {
+    background-color: #1d3353;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+
+.intro p {
+    font-size: 18px;
+    margin-top: 2px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.buttons a {
+    text-decoration: none;
+    margin-top: 20px;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.btn-comecar {
+    font-family: "Playfair Display", sans-serif;
+    background-color: #c19f50;
+    color: white;
+}
+
+.btn-demonstracao {
+    font-family: "Playfair Display", sans-serif;
+    background-color: #1d3353;
+    color: white;
+    border: 2px solid white;
+}
+
+.recursos, .como-funciona {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.recursos h2, .como-funciona h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #1d3353;
+}
+
+.recursos-cards, .como-funciona-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card {
+    background-color: #d9d9d9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+}
+
+.card p{
+    font-family: "Open Sans", sans-serif;
+    color: #1d3353;
+}
+
+.card img {
+    max-width: 40px;
+    margin-bottom: 20px;
+}
+
+.cta {
+    background-color: #1d3353;
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.cta h2{
+    font-family: "Open Sans", sans-serif;
+    color: white;
+}
+
+
+p{
+    font-family: "Open Sans", sans-serif;
+    color: #1d3353;
+}
+
+footer {
+    background-color: #1d3353;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer p {
+    color: white;
+    text-decoration: none;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+/* BELLEZA */
+@font-face {
+  font-family: 'Belleza';
+  src: url('../fonts/Belleza-Regular.ttf') format('truetype');
+  font-weight: 10;
+}
+
+.belleza-text {
+  font-family: 'Belleza', sans-serif;
+  margin-bottom: 20px;
+  font-size: 47px;
+}
+
+@font-face {
+  font-family: 'Open sans';
+  src: url('../fonts/OpenSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+.openSans-text {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 47px;
+}
+
+@font-face {
+  font-family: 'Allura';
+  src: url('../fonts/Allura-Regular.ttf') format('truetype');
+  font-weight: 10;
+}
+
+.allura_text {
+  font-family: 'Allura', sans-serif;
+  font-size: 80px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #c19f50;
+}

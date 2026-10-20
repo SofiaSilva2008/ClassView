@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Nova Avaliação</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background-color: #6c5ce7; color: white; }
+    textarea { resize: vertical; width: 100%; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+    <nav>
+      <a href="{{ url_for('professor.dashboardProfessor') }}"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a>
+      <a href="{{ url_for('professor.novaAvaliacao') }}" class="active"><i class="fa-solid fa-plus"></i> Nova avaliação</a>
+      <a href="{{ url_for('professor.relatorios') }}"><i class="fa-regular fa-file-lines"></i> Relatório</a>
+      <a href="{{ url_for('professor.AjudaTutoriais') }}"><i class="fa-solid fa-info"></i> Ajuda & tutoriais</a>
+      <a href="{{ url_for('professor.perfilProfessor') }}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+    <a href="{{ url_for('auth.logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <main class="main-content">
+    <h2>Nova Avaliação</h2>
+
+    <!-- Formulário GET só para escolher a turma -->
+  <form method="GET">
+    <label for="turma_id">Turma:</label>
+    <select name="turma_id" id="turma_id" onchange="this.form.submit()">
+      <option value="">Selecione a turma</option>
+      {% for turma in turmas %}
+        <option value="{{ turma.id }}" {% if request.args.get('turma_id') == turma.id|string %}selected{% endif %}>{{ turma.nome }}</option>
+      {% endfor %}
+    </select>
+  </form>
+
+  {% if turma_id %}
+    <form method="POST">
+      <label for="disciplina_id">Disciplina:</label>
+      <select name="disciplina_id" id="disciplina_id" required>
+        {% for disciplina in disciplinas %}
+          <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="data">Data da avaliação:</label>
+      <input type="date" name="data" id="data" value="{{ hoje }}" required>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Aluno</th>
+            <th>Nota (0-10)</th>
+            <th>Presente</th>
+            <th>Observações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aluno in alunos %}
+            <tr>
+              <td>{{ aluno.nome }}</td>
+              <td><input type="number" name="nota_{{ aluno.id }}" min="0" max="10" step="0.1"></td>
+              <td><input type="checkbox" name="presente_{{ aluno.id }}" checked></td>
+              <td><textarea name="observacoes_{{ aluno.id }}"></textarea></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <button type="submit">Salvar Avaliação</button>
+    </form>
+  {% endif %}
+
+
+  </main>
+</div>
+</body>
+</html>

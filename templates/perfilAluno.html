@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Perfil do Aluno</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilAluno.css') }}">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+
+    <nav>
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.dashboardProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.dashboard_coordenador') }}{% endif %}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.novaAvaliacao') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.adicionar_turma') }}{% endif %}">
+        <i class="fa-solid fa-plus"></i>
+        {% if tipo == 'professor' %}Nova avaliação{% elif tipo == 'coordenador' %}Gerenciamento{% endif %}
+      </a>
+
+      <a href="{{ url_for('professor.relatorios') }}" class="active">
+        <i class="fa-regular fa-file-lines"></i> Relatório
+      </a>
+
+      <a href="{{ url_for('professor.AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.perfilProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.perfil_coordenador') }}{% endif %}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+
+    <a href="{{ url_for('auth.logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h2 class="belleza-text">{% if tipo == 'professor' %}Perfil do Aluno{% else %}Gestão de Turmas e Alunos{% endif %}</h2>
+
+      <div class="professor">
+        <div class="avatar">{{ nome[:2] }}</div>
+        <div>
+          <strong>
+            {% if tipo == 'professor' %}Prof. {{ nome }}{% elif tipo == 'coordenador' %}Coord. {{ nome }}{% endif %}
+          </strong>
+          <small>
+            {% if tipo == 'professor' %}Professor{% elif tipo == 'coordenador' %}Coordenador(a){% endif %}
+          </small>
+        </div>
+      </div>
+    </header>
+
+    <!-- LISTA DE ALUNOS OU TURMAS -->
+    <section class="student-list">
+        {% if tipo == 'professor' %}
+        {% if alunos %}
+          {% for aluno in alunos %}
+            <div class="student-card">
+              <div class="student-info">
+                <div class="student-avatar">{{ aluno.aluno_nome[:2] | upper }}</div>
+                <div>
+                  <h3>{{ aluno.aluno_nome }}</h3>
+                  <p>{{ aluno.turma_nome }} • {{ aluno.email }}</p>
+                </div>
+              </div>
+              <div class="actions">
+                <a href="{{ url_for('professor.perfilIndividual', aluno_id=aluno['id']) }}" class="btn outline">
+                  Ver Perfil
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>Nenhum aluno encontrado.</p>
+        {% endif %}
+      {% endif %}
+
+      {% if tipo == 'coordenador' %}
+        {% if turmas %}
+          {% for turma in turmas %}
+            <div class="student-card" style="flex-direction: column; align-items: stretch;">
+
+              <div class="student-info">
+                <div class="student-avatar">
+                  {{ turma.nome[:2] | upper }}
+                </div>
+                <div>
+                  <h3>Turma {{ turma.nome }}</h3>
+                  <p>Alunos matriculados</p>
+                </div>
+              </div>
+
+              <!-- LISTA DE ALUNOS DA TURMA -->
+              <div style="margin-top:15px; padding-left:60px;">
+                {% if alunos_por_turma[turma.id] %}
+                  <ul style="list-style:none; padding:0; margin:0;">
+                    {% for aluno in alunos_por_turma[turma.id] %}
+                      <li style="margin-bottom:8px; color:#555;">
+                        • {{ aluno.nome }} — {{ aluno.email }}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <p style="color:#777;">Nenhum aluno nesta turma.</p>
+                {% endif %}
+              </div>
+
+              <!-- BOTÃO DE ACESSO À TURMA PARA O COORDENADOR -->
+              <div class="actions" style="margin-top:15px; align-self:flex-end;">
+                <a href="{{ url_for('coordenador.verTurma', turma_id=turma.id) }}" class="btn outline">
+                  Ver Turma
+                </a>
+              </div>
+
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>Nenhuma turma encontrada.</p>
+        {% endif %}
+      {% endif %}
+
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

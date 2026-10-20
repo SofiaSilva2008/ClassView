@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Gerenciamento</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+
+    <nav>
+      <a href="{{ url_for('coordenador.dashboard_coordenador') }}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a class="active" href="{{ url_for('coordenador.adicionar_coordenador') }}">
+        <i class="fa-solid fa-plus"></i> Gerenciamento
+      </a>
+
+      <a href="{{ url_for('professor.relatorios') }}">
+        <i class="fa-regular fa-file-lines"></i> Relatório
+      </a>
+
+      <a href="{{ url_for('professor.AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{{ url_for('coordenador.perfil_coordenador') }}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+
+    <a href="{{ url_for('auth.logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h2 class="belleza-text">Gerenciamento do Coordenador</h2>
+
+      <div class="professor">
+        <div class="avatar">CD</div>
+        <div>
+          <strong>Coord. {{ nome }}</strong>
+          <small>Coordenador(a)</small>
+        </div>
+      </div>
+    </header>
+
+    <!-- AÇÕES -->
+    <main>
+      <section class="coordenador-actions">
+        <h2 class="belleza-text">O que deseja fazer?</h2>
+
+        <div class="actions">
+          <a href="{{ url_for('coordenador.adicionar_turma') }}" class="btn-outline">
+            <i class="fa-solid fa-school"></i>
+            Adicionar Turma
+          </a>
+
+          <a href="{{ url_for('coordenador.adicionar_aluno') }}" class="btn-outline">
+            <i class="fa-solid fa-user-plus"></i>
+            Adicionar Aluno
+          </a>
+
+          <a href="{{ url_for('coordenador.adicionar_disciplina') }}" class="btn-outline">
+            <i class="fa-solid fa-user-plus"></i>
+            Adicionar Disciplina
+          </a>
+        </div>
+      </section>
+    </main>
+
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Ajuda & Tutoriais</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilAluno.css') }}">
+  <style>
+    /* Estilos específicos para a página de Ajuda */
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .help-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-top: 4px solid #1f3a5f;
+    }
+    .help-card h3 {
+      color: #1f3a5f;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .faq-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .faq-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item strong {
+      color: #333;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .faq-item p {
+      color: #666;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .video-box {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      color: #64748b;
+      margin-top: 15px;
+    }
+    .video-box i {
+      font-size: 2.5rem;
+      color: #1f3a5f;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+
+    <nav>
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.dashboardProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.dashboard_coordenador') }}{% endif %}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.dashboardProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.adicionar_coordenador') }}{% endif %}">
+        <i class="fa-solid fa-plus"></i>
+        {% if tipo == 'professor' %}Nova avaliação{% elif tipo == 'coordenador' %}Gerenciamento{% endif %}
+      </a>
+
+      <a href="{{ url_for('professor.relatorios') }}">
+        <i class="fa-regular fa-file-lines"></i> Relatórios
+      </a>
+
+      <a class="active" href="{{ url_for('professor.AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.perfilProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.perfil_coordenador') }}{% endif %}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+
+    <a href="{{ url_for('auth.logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h2 class="belleza-text">Ajuda & Tutoriais</h2>
+
+      <div class="professor">
+        <div class="avatar">{{ nome[:2] | upper }}</div>
+        <div>
+          <strong>
+            {% if tipo == 'professor' %}Prof. {{ nome }}{% elif tipo == 'coordenador' %}Coord. {{ nome }}{% endif %}
+          </strong>
+          <small>
+            {% if tipo == 'professor' %}Professor{% elif tipo == 'coordenador' %}Coordenador(a){% endif %}
+          </small>
+        </div>
+      </div>
+    </header>
+
+    <!-- SEÇÃO DE CONTEÚDO DE AJUDA -->
+    <section style="margin-top: 20px;">
+      
+      <!-- Banner introdutório -->
+      <div class="student-card" style="display: block; padding: 25px;">
+        <h3 style="color: #1f3a5f; margin-bottom: 8px;"><i class="fa-solid fa-circle-question" style="color: #6c5ce7;"></i> Central de Suporte ClassView</h3>
+        <p style="color: #666; margin: 0;">Encontre aqui respostas rápidas para as principais dúvidas sobre o lançamento de chamadas, notas, gerenciamento de turmas e emissão de relatórios em PDF.</p>
+      </div>
+
+      <!-- GRID DE CARDS DE TUTORIAIS -->
+      <div class="help-grid">
+        
+        <!-- CARD PARA PROFESSORES -->
+        <div class="help-card">
+          <h3><i class="fa-solid fa-chalkboard-user"></i> Manuais para Professores</h3>
+          <ul class="faq-list">
+            <li class="faq-item">
+              <strong>1. Como fazer a chamada (Ata)?</strong>
+              <p>Acesse o seu Dashboard, clique na turma desejada e vá na opção de Ata. Marque os alunos presentes, insira a observação da aula e clique em "Salvar Ata".</p>
+            </li>
+            <li class="faq-item">
+              <strong>2. Lançamento de Notas e Avaliações</strong>
+              <p>No painel do professor, selecione a disciplina correspondente para registrar notas e acompanhar a evolução individual de cada estudante.</p>
+            </li>
+            <li class="faq-item">
+              <strong>3. Como gerar o relatório individual do aluno?</strong>
+              <p>Entre no Perfil Individual do aluno desejado e clique no botão "Gerar Relatório Individual" para preencher o parecer pedagógico e exportar.</p>
+            </li>
+          </ul>
+
+          <!-- Espaço opcional para vídeo tutorial -->
+          <div class="video-box">
+            <i class="fa-solid fa-video"></i>
+            <p style="margin: 0; font-size: 0.85rem;">Vídeo tutorial em breve</p>
+          </div>
+        </div>
+
+        <!-- CARD PARA COORDENADORES -->
+        <div class="help-card" style="border-top-color: #6c5ce7;">
+          <h3 style="color: #6c5ce7;"><i class="fa-solid fa-user-gear"></i> Manuais para Coordenadores</h3>
+          <ul class="faq-list">
+            <li class="faq-item">
+              <strong>1. Gerenciamento de Turmas e Disciplinas</strong>
+              <p>Na aba de Gerenciamento, é possível cadastrar novas turmas, associar disciplinas ao catálogo e vincular os professores responsáveis por lecionar.</p>
+            </li>
+            <li class="faq-item">
+              <strong>2. Emissão de Relatórios de Turma</strong>
+              <p>Acesse a listagem de relatórios institucionais para acompanhar o desempenho global, frequência geral e notas consolidadas por turma.</p>
+            </li>
+            <li class="faq-item">
+              <strong>3. Controle de Acessos</strong>
+              <p>O sistema restringe automaticamente a visualização de notas e chamadas conforme o papel do usuário (Professor ou Coordenador).</p>
+            </li>
+          </ul>
+
+          <!-- Espaço opcional para vídeo tutorial -->
+          <div class="video-box">
+            <i class="fa-solid fa-video"></i>
+            <p style="margin: 0; font-size: 0.85rem;">Vídeo tutorial em breve</p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <div style="height: 600px;"></div>
+
+  </main>
+</div>
+
+</body>
+</html>

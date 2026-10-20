@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Relatório da Turma</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilAluno.css') }}">
+  <style>
+    .btn-pdf {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1f3a5f;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 25px;
+      transition: background 0.2s;
+    }
+    .btn-pdf:hover {
+      background: #152945;
+    }
+    .turma-resumo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .resumo-item {
+      background: #f8fafc;
+      padding: 12px 15px;
+      border-radius: 6px;
+      border-left: 4px solid #1f3a5f;
+    }
+    .resumo-item span { font-size: 0.85rem; color: #666; display: block; }
+    .resumo-item strong { font-size: 1.1rem; color: #1f3a5f; }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+
+    <nav>
+      <a href="{{ url_for('dashboardCoordenador') }}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a href="{{ url_for('adicionarCoordenador') }}">
+        <i class="fa-solid fa-plus"></i> Gerenciamento
+      </a>
+
+      <a class="active" href="{{ url_for('relatorios') }}">
+        <i class="fa-regular fa-file-lines"></i> Relatórios
+      </a>
+
+      <a href="{{ url_for('AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{{ url_for('perfilCoordenador') }}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+
+    <a href="{{ url_for('logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+
+    <!-- TOPO -->
+    <header class="topbar">
+      <h2 class="belleza-text">Relatório da Turma {{ turma.nome }}</h2>
+
+      <div class="professor">
+        <div class="avatar">{{ coordenador[:2] | upper }}</div>
+        <div>
+          <strong>{{ coordenador }}</strong>
+          <small>Coordenador(a)</small>
+        </div>
+      </div>
+    </header>
+
+    <!-- DADOS GERAIS -->
+    <section class="student-list">
+
+      <div class="student-card" style="display: block;">
+        <div class="student-info" style="align-items: flex-start; gap: 20px;">
+          <div style="flex: 1;">
+            <h3>Turma {{ turma.nome }}</h3>
+            <p style="color: #666; margin-bottom: 10px;"><i class="fa-regular fa-calendar"></i> Data de emissão: {{ data }}</p>
+            
+            <div class="turma-resumo-grid">
+              <div class="resumo-item">
+                <span>Frequência Geral</span>
+                <strong>{{ frequencia }}%</strong>
+              </div>
+              <div class="resumo-item">
+                <span>Média da Turma</span>
+                <strong>{{ media_geral }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTA DE ALUNOS -->
+      <h3 style="margin: 30px 0 15px 0; color: #1f3a5f;">Desempenho dos Alunos</h3>
+
+      {% if alunos %}
+        <div style="display: grid; gap: 10px;">
+          {% for aluno in alunos %}
+            <div class="student-card" style="padding: 15px 20px;">
+              <div class="student-info" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="student-avatar" style="width: 40px; height: 40px; font-size: 0.9rem;">
+                    {{ aluno.nome[:2] | upper }}
+                  </div>
+                  <div>
+                    <h4 style="margin: 0; font-size: 1rem;">{{ aluno.nome }}</h4>
+                    {% if aluno.disciplina_nome %}
+                      <small style="color: #666;"><i class="fa-solid fa-book"></i> {{ aluno.disciplina_nome }}</small>
+                    {% endif %}
+                  </div>
+                </div>
+                <div>
+                  <span style="background: #eef2f7; color: #1f3a5f; padding: 6px 12px; border-radius: 6px; font-weight: bold;">
+                    Média: {{ "%.2f"|format(aluno.media) if aluno.media is not none else '—' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="color: #777; margin-top: 15px;">Nenhum aluno encontrado nesta turma.</p>
+      {% endif %}
+
+    </section>
+
+    <a href="{{ url_for('relatorios') }}" class="btn-pdf">
+      <i class="fa-solid fa-file-arrow-down"></i> Baixar PDF
+    </a>
+
+  </main>
+</div>
+
+</body>
+</html>

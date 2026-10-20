@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Relatórios</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilAluno.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styleRelatorio.css') }}">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1 class="logo">Class<span>View</span></h1>
+      <nav>
+        <a href="{% if tipo == 'professor' %}{{ url_for('professor.dashboardProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.dashboard_coordenador') }}{% endif %}">
+          <i class="fa-solid fa-table-cells-large"></i> Dashboard
+        </a>
+        
+        <a href="{% if tipo == 'professor' %}{{ url_for('professor.novaAvaliacao') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.adicionar_coordenador') }}{% endif %}">
+          <i class="fa-solid fa-plus"></i>
+          {% if tipo == 'professor' %}Nova avaliação{% elif tipo == 'coordenador' %}Gerenciamento{% endif %}
+        </a>
+
+        <a href="{{ url_for('professor.relatorios') }}" class="active">
+          <i class="fa-regular fa-file-lines"></i> Relatório
+        </a>
+
+        <a href="{{ url_for('professor.AjudaTutoriais') }}">
+          <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+        </a>
+
+        <a href="{% if tipo == 'professor' %}{{ url_for('professor.perfilProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.perfil_coordenador') }}{% endif %}">
+          <i class="fa-regular fa-circle-user"></i> Meu perfil
+        </a>
+      </nav>
+      <a href="{{ url_for('auth.logout') }}" class="logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+      </a>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+        <h2 class="belleza-text">Relatórios</h2>
+        <div class="professor">
+          <div class="avatar">{{ nome[:2] | upper }}</div>
+          <div>
+            <strong>
+              {% if tipo == 'professor' %}Prof. {{ nome }}{% elif tipo == 'coordenador' %}Coord. {{ nome }}{% endif %}
+            </strong>
+            <small>
+              {% if tipo == 'professor' %}Professor{% elif tipo == 'coordenador' %}Coordenador(a){% endif %}
+            </small>
+          </div>
+        </div>
+      </header>
+      <div class="header-relatorios">
+        <h3 id="titulo-relatorios">Lista de Relatórios</h3>
+        <a class="btn-gerar" href="{% if tipo == 'coordenador' %}
+                  {{ url_for('professor.perfilAluno') }}
+                {% else %}
+                  {{ url_for('professor.perfilAluno') }}
+                {% endif %}">
+          Gerar Relatório
+        </a>
+
+      </div>
+      <section class="relatorios" id="lista-relatorios">
+        {% if relatorios %}
+          {% for relatorio in relatorios %}
+            <article class="relatorio" data-testid="relatorio-item">
+              <div class="relatorio-info">
+                <p class="titulo" data-testid="relatorio-titulo">{{ relatorio[1] }}</p>
+                <p class="info" data-testid="relatorio-info">{{ relatorio[3] }}</p>
+                {% if relatorio[2] %}
+                  <p class="descricao" data-testid="relatorio-descricao">{{ relatorio[2] }}</p>
+                {% endif %}
+              </div>
+              <div class="relatorio-acoes">
+                <!-- Ação para visualizar o relatório -->
+                <a href="{{ url_for('professor.visualizarRelatorio', id=relatorio[0]) }}" class="acao visualizar" data-testid="btn-visualizar-relatorio" aria-label="Visualizar relatório"><i class="fa-regular fa-eye"></i></a>
+                <!-- Ação para baixar o relatório -->
+                <a href="{{ url_for('professor.baixarRelatorio', id=relatorio[0]) }}" class="acao baixar" data-testid="btn-baixar-relatorio" aria-label="Baixar relatório"><i class="fa-solid fa-download"></i></a>
+                <!-- Ação para excluir o relatório -->
+                <form action="{{ url_for('professor.excluirRelatorio', id=relatorio.id) }}" method="POST" onsubmit="return confirm('Deseja excluir este relatório?')">
+                  <button type="submit">Excluir</button>
+                </form>
+              </div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <p id="nenhum-relatorio" data-testid="nenhum-relatorio" style="margin-top:20px; color:#777;">Nenhum relatório disponível.</p>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+</body>
+</html>

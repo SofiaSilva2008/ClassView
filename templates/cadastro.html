@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ClassView - Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styleLogin.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">Class<span>View</span></div>
+    <h2>Criar Nova Conta</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="msg {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <form method="POST" action="{{ url_for('auth.cadastro') }}">
+
+        <label>Nome Completo</label>
+        <input type="text" name="nome" placeholder="Seu nome completo" required>
+
+        <label>E-mail Institucional</label>
+        <input type="email" name="email" placeholder="seu.email@discente.edu.br" required>
+
+        <label>Senha</label>
+        <input type="password" name="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
+
+        <label>Confirmar Senha</label>
+        <input type="password" name="confirmar_senha" placeholder="Digite a senha novamente" required minlength="8">
+
+        <button type="submit">CRIAR CONTA</button>
+
+    </form>
+
+    <div class="footer-text">
+        Já tem uma conta? <a href="{{ url_for('auth.login') }}">Fazer login</a>
+    </div>
+</div>
+
+</body>
+</html>

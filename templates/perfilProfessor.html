@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil do Professor</title>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+                <h1 class="logo">Class<span>View</span></h1>
+                <nav>
+                    <a href="{{ url_for('professor.dashboardProfessor') }}">
+                        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+                    </a>
+
+                    <a href="{{ url_for('professor.novaAvaliacao') }}">
+                        <i class="fa-solid fa-plus"></i> Nova Avaliação
+                    </a>
+                    
+                    <a href="{{ url_for('professor.relatorios') }}">
+                        <i class="fa-regular fa-file-lines"></i> Relatório
+                    </a>
+
+                    <a href="{{ url_for('professor.AjudaTutoriais') }}">
+                        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+                    </a>
+
+                    <a href="{{ url_for('professor.perfilProfessor') }}" class="active">
+                        <i class="fa-regular fa-circle-user"></i> Meu perfil
+                    </a>
+                </nav>
+                
+                <a href="{{ url_for('auth.logout') }}" class="logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+                </a>
+            </aside>
+
+  <main class="content">
+
+    <header class="topbar">
+        <h2 class="belleza-text">
+        Perfil Do Professor
+      </h2>
+      <div class="professor">
+        <div class="avatar">{{ usuario.nome[:2] }}</div>
+        <div>
+          <strong>{{ usuario.nome }}</strong>
+          <small>{{ usuario.email }}</small>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Cartões resumo -->
+      <section class="cards">
+        <div class="card">
+          <h3>Turmas</h3>
+          <div class="value">{{ turmas|length }}</div>
+        </div>
+        <div class="card">
+          <h3>Disciplinas</h3>
+          <div class="value">{{ disciplinas|length }}</div>
+        </div>
+        <div class="card">
+          <h3>Total de Alunos</h3>
+          <div class="value">{{ total_alunos }}</div>
+        </div>
+      </section>
+
+      <!-- Lista de disciplinas do professor -->
+      <section class="disciplinas-professor">
+        <h2>Disciplinas do Professor</h2>
+        <p>
+          {% for d in disciplinas %}
+            {{ d.nome }}{% if not loop.last %}, {% endif %}
+          {% else %}
+            Nenhuma disciplina cadastrada.
+          {% endfor %}
+        </p>
+      </section>
+
+      <!-- Lista de turmas e disciplinas vinculadas -->
+      <section class="turmas-lista">
+        <h2>Minhas Turmas</h2>
+        {% for turma in turmas %}
+          <div class="turma-box">
+            <h3>{{ turma['turma_nome'] }}</h3>
+            <p><strong>Disciplinas:</strong> {{ turma['disciplinas'] or 'Nenhuma disciplina vinculada' }}</p>
+          </div>
+        {% else %}
+          <p class="sem-alunos">Nenhuma turma cadastrada.</p>
+        {% endfor %}
+      </section>
+
+    </main>
+
+  </main>
+</div>
+</body>
+</html>

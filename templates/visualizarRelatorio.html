@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Visualizar Relatório</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Estilo base compartilhado com perfilAluno/perfilIndividual -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilAluno.css') }}">
+  <!-- Estilos específicos para relatórios -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styleRelatorio.css') }}">
+</head>
+<body>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+    <nav>
+      <a href="{% if tipo == 'professor' %}{{ url_for('dashboardProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('dashboardCoordenador') }}{% endif %}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('novaAvaliacao') }}{% elif tipo == 'coordenador' %}{{ url_for('adicionarCoordenador') }}{% endif %}">
+        <i class="fa-solid fa-plus"></i>
+        {% if tipo == 'professor' %}Nova avaliação{% elif tipo == 'coordenador' %}Gerenciamento{% endif %}
+      </a>
+
+      <a href="{{ url_for('relatorios') }}" class="active">
+        <i class="fa-regular fa-file-lines"></i> Relatório
+      </a>
+
+      <a href="{{ url_for('AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('perfilProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('perfilCoordenador') }}{% endif %}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+    <a href="{{ url_for('logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h2 class="belleza-text">Relatório</h2>
+      <div class="professor">
+        <div class="avatar">{{ nome[:2] | upper }}</div>
+        <div>
+          <strong>{% if tipo == 'professor' %}Prof. {{ nome }}{% elif tipo == 'coordenador' %}Coord. {{ nome }}{% endif %}</strong>
+          <small>{% if tipo == 'professor' %}Professor{% elif tipo == 'coordenador' %}Coordenador(a){% endif %}</small>
+        </div>
+      </div>
+    </header>
+
+    <!-- DETALHES DO RELATÓRIO -->
+    <section>
+      <div class="header-relatorios">
+        <h3 id="titulo-relatorios">{{ relatorio['titulo'] }}</h3>
+        <div class="relatorio-acoes">
+          <!-- Botão para baixar -->
+          <a href="{{ url_for('baixarRelatorio', id=relatorio['id']) }}" class="acao" aria-label="Baixar"><i class="fa-regular fa-arrow-down-to-line"></i></a>
+          <!-- Botão para excluir -->
+          <a href="{{ url_for('excluirRelatorio', id=relatorio['id']) }}" class="acao" aria-label="Excluir" onclick="return confirm('Tem certeza que deseja excluir este relatório?');"><i class="fa-regular fa-trash-can"></i></a>
+          <!-- Botão para voltar -->
+          <a href="{{ url_for('relatorios') }}" class="acao" aria-label="Voltar"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+      </div>
+      <article class="relatorio">
+        <div class="relatorio-info">
+          <p class="info"><strong>Data:</strong> {{ relatorio['data'] }}</p>
+          {% if relatorio['descricao'] %}
+            <p class="descricao" style="margin-top:16px;">{{ relatorio['descricao'] }}</p>
+          {% else %}
+            <p class="descricao" style="margin-top:16px;">Nenhuma descrição fornecida.</p>
+          {% endif %}
+        </div>
+      </article>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

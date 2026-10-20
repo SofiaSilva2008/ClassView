@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ClassView - Dashboard</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <h1 class="logo">Class<span>View</span></h1>
+                <nav>
+                    <a href="{{ url_for('coordenador.dashboard_coordenador') }}" class="active">
+                        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+                    </a>
+
+                    <a href="{{ url_for('coordenador.adicionar_coordenador') }}">
+                        <i class="fa-solid fa-plus"></i> Gerenciamento
+                    </a>
+
+                    <a href="{{ url_for('professor.relatorios') }}">
+                        <i class="fa-regular fa-file-lines"></i> Relatório
+                    </a>
+
+                    <a href="{{ url_for('professor.AjudaTutoriais') }}">
+                        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+                    </a>
+
+                    <a href="{{ url_for('coordenador.perfil_coordenador') }}">
+                        <i class="fa-regular fa-circle-user"></i> Meu perfil
+                    </a>
+                </nav>
+
+                
+                <a href="{{ url_for('auth.logout') }}" class="logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+                </a>
+            </aside>
+
+            <main class="content">
+                <header class="topbar">
+                <h2 class="belleza-text">Olá, {% if tipo == 'professor' %}
+                Prof. {{ nome }}
+                {% elif tipo == 'coordenador' %}
+                Coord. {{ nome }}
+                {% endif %}</h2>
+                <div class="professor">
+                <div class="avatar">{{ nome[:2] }}</div>
+                <div>
+                <strong>
+                {% if tipo == 'professor' %}
+                Prof. {{ nome }}
+                {% elif tipo == 'coordenador' %}
+                Coord. {{ nome }}
+                {% endif %}
+                </strong>
+                <small>
+                {% if tipo == 'professor' %}
+                Professor
+                {% elif tipo == 'coordenador' %}
+                Coordenador(a)
+                {% endif %}
+                </small>
+                </div>
+                </div>
+                </header>
+
+                <section class="cards">
+                    <div class="card">
+                        <h3>Total de turmas <i class="fa-regular fa-folder-open"></i></h3>
+                        <p class="value">{{ total_turmas }}</p>
+                        <p class="sub">{{total_alunos}} alunos no total</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Média geral <i class="fa-solid fa-star"></i></h3>
+                        <p class="value">{{ "%.1f"|format(media_geral) }}</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Frequência média <i class="fa-regular fa-circle-check"></i></h3>
+                        <p class="value">{{ frequencia_media }}%</p>
+                        <p class="sub">
+                            {% if frequencia_media > 90 %}
+                            Ótimo desempenho
+                            {% elif frequencia_media > 70 %}
+                            Bom desempenho
+                            {% else %}
+                            Necessita atenção
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Alertas <i class="fa-solid fa-triangle-exclamation"></i></h3>
+                        <p class="value">{{ total_alertas }}</p>
+                        <p class="sub {% if total_alertas > 0 %}alerta-risco{% else %}alerta-sucesso{% endif %}">
+                            {% if total_alertas > 0 %}
+                                Turma(s) com média &lt; 6.0
+                            {% else %}
+                                Nenhum alerta pendente
+                            {% endif %}
+                        </p>
+
+                    </div>
+
+                </section>
+
+                <section class="turmas-section">
+                    <h2 class="belleza-text">Turmas e Alunos</h2>
+                    <div class="turmas-lista">
+                        {% for turma in turmas %}
+                        <div class="turma-box">
+                            <h3>{{ turma.nome }}</h3>
+                            
+                            {% if alunos_por_turma[turma.id] %}
+                                <ul class="alunos-lista">
+                                    {% for aluno in alunos_por_turma[turma.id] %}
+                                    <li>
+                                        <i class="fa-regular fa-user"></i>
+                                        {{ aluno.nome }} — {{ aluno.email }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="sem-alunos">Nenhum aluno cadastrado</p>
+                            {% endif %}
+
+                            <!-- Botão Ver Turma posicionado corretamente dentro do card -->
+                            <div class="actions" style="margin-top: 15px; text-align: right;">
+                                <a href="{{ url_for('coordenador.verTurma', turma_id=turma.id) }}" class="btn outline" style="padding: 6px 12px; font-size: 14px;">
+                                    Ver Turma Completa
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </body>
+</html>

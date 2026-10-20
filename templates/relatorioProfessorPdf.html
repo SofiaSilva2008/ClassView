@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório Individual - {{ aluno.aluno_nome }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; margin: 40px; }
+        h1, h2 { color: #1f3a5f; text-align: center; }
+        .info-box { background: #f5f6f8; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #1f3a5f; color: #fff; }
+        .footer { margin-top: 40px; text-align: center; font-size: 0.9rem; color: #666; }
+    </style>
+</head>
+<body>
+
+    <h1>Relatório de Desempenho do Aluno</h1>
+    <hr>
+
+    <div class="info-box">
+        <p><strong>Aluno(a):</strong> {{ aluno.aluno_nome }}</p>
+        <p><strong>Turma:</strong> {{ aluno.turma_nome }}</p>
+        <p><strong>Frequência Geral:</strong> {{ frequencia }}</p>
+        <p><strong>Data de Emissão:</strong> {{ data }}</p>
+    </div>
+
+    <h3>Avaliações e Notas</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Disciplina</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for av in avaliacoes %}
+            <tr>
+                <td>{{ av.disciplina }}</td>
+                <td>{{ av.nota if av.nota is not none else 'Sem nota' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2" style="text-align: center;">Nenhuma avaliação registrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Avaliação Comportamental</h3>
+    <p>{{ comportamento }}</p>
+
+    <h3>Observações Gerais</h3>
+    <p>{{ observacoes }}</p>
+
+    <div class="footer">
+        <p>Relatório gerado pelo Professor(a) <strong>{{ professor }}</strong> via ClassView</p>
+    </div>
+
+</body>
+</html>

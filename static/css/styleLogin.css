@@ -1,0 +1,125 @@
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* FUNDO */
+body {
+    background: #1e3556;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* CARD CENTRAL */
+.container {
+    background: #fff;
+    width: 360px;
+    padding: 30px 35px;
+    border-radius: 22px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* LOGO */
+.logo {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #c9a44c;
+}
+
+/* TÍTULO */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #243554;
+}
+
+/* LABELS */
+label {
+    font-size: 14px;
+    color: #243554;
+}
+
+/* INPUTS */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 15px 0;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #c9a44c;
+}
+
+/* ESQUECI SENHA */
+.forgot {
+    font-size: 12px;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.forgot a {
+    color: #c9a44c;
+    text-decoration: none;
+}
+
+/* BOTÃO */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #c9a44c;
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* TEXTO RODAPÉ */
+.footer-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #243554;
+}
+
+.footer-text a {
+    color: #c9a44c;
+    text-decoration: none;
+}
+
+.msg {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.msg.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.msg.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}

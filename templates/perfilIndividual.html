@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassView - Perfil do Aluno</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/stylePerfilAluno.css') }}">
+  <style>
+    /* Estilos utilitários para os novos ajustes visuais */
+    .trend-up { color: #2ecc71; }
+    .trend-down { color: #e74c3c; }
+    .trend-neutral { color: #f39c12; }
+    
+    .timeline-list { list-style: none; padding: 0; margin: 0; }
+    .timeline-item { 
+      padding: 12px 0; 
+      border-bottom: 1px solid #eee; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-start;
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    
+    .badge-nota {
+      background: #eef2f7;
+      color: #1f3a5f;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .badge-ausente {
+      background: #fde8e8;
+      color: #c53030;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+    
+    .btn-relatorio {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1f3a5f;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-relatorio:hover {
+      background: #152945;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Class<span>View</span></h1>
+
+    <nav>
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.dashboardProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.dashboard_coordenador') }}{% endif %}">
+        <i class="fa-solid fa-table-cells-large"></i> Dashboard
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.dashboardProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.adicionar_coordenador') }}{% endif %}">
+        <i class="fa-solid fa-plus"></i>
+        {% if tipo == 'professor' %}Nova avaliação{% elif tipo == 'coordenador' %}Gerenciamento{% endif %}
+      </a>
+
+      <a href="{{ url_for('professor.relatorios') }}">
+        <i class="fa-regular fa-file-lines"></i> Relatório
+      </a>
+
+      <a href="{{ url_for('professor.AjudaTutoriais') }}">
+        <i class="fa-solid fa-info"></i> Ajuda & tutoriais
+      </a>
+
+      <a href="{% if tipo == 'professor' %}{{ url_for('professor.perfilProfessor') }}{% elif tipo == 'coordenador' %}{{ url_for('coordenador.perfil_coordenador') }}{% endif %}">
+        <i class="fa-regular fa-circle-user"></i> Meu perfil
+      </a>
+    </nav>
+
+    <a href="{{ url_for('auth.logout') }}" class="logout">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+    </a>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h2 class="belleza-text">Perfil Individual</h2>
+
+      <div class="professor">
+        <div class="avatar">{{ nome[:2] }}</div>
+        <div>
+          <strong>
+            {% if tipo == 'professor' %}Prof. {{ nome }}{% elif tipo == 'coordenador' %}Coord. {{ nome }}{% endif %}
+          </strong>
+          <small>
+            {% if tipo == 'professor' %}Professor{% elif tipo == 'coordenador' %}Coordenador(a){% endif %}
+          </small>
+        </div>
+      </div>
+    </header>
+
+    <!-- LISTA DE ALUNOS -->
+    <section class="student-list">
+        {% if aluno %}
+            <div class="student-card" style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="student-info" style="display: flex; align-items: center; gap: 15px;">
+                  <div class="student-avatar">{{ aluno.aluno_nome[:2] | upper }}</div>
+                  <div>
+                    <h3>{{ aluno.aluno_nome }}</h3>
+                    <p>{{ aluno.turma_nome }} • {{ aluno.email }}</p>
+                  </div>
+              </div>
+              
+              <!-- BOTÃO PARA GERAR RELATÓRIO INDIVIDUAL -->
+              <div>
+                  <a href="{{ url_for('professor.relatorio_professor', aluno_id=aluno.id) }}" class="btn-relatorio">
+                      <i class="fa-solid fa-file-pdf"></i> Gerar Relatório Individual
+                  </a>
+              </div>
+            </div>
+        {% else %}
+            <p style="margin-top:20px; color:#777;">Aluno não encontrado.</p>
+        {% endif %}
+    </section>
+
+    <!-- ESTATÍSTICAS -->
+    <section class="stats">
+      <div class="stat-card">
+          <span>Média Geral</span>
+          <strong>{{ media_geral }}</strong>
+      </div>
+
+      <div class="stat-card">
+          <span>Frequência</span>
+          <strong>{{ frequencia }}%</strong>
+      </div>
+
+      <div class="stat-card">
+          <span>Avaliações</span>
+          <strong>{{ total_avaliacoes }}</strong>
+      </div>
+      
+      <div class="stat-card">
+          <span>Tendência</span>
+          <!-- Lógica de tendência dinâmica baseada na variável de controle ou cálculo -->
+          {% if tendencia == 'subindo' %}
+              <strong class="trend-up" title="Notas subindo">↑</strong>
+          {% elif tendencia == 'descendo' %}
+              <strong class="trend-down" title="Notas descendo">↓</strong>
+          {% else %}
+              <strong class="trend-neutral" title="Estável">→</strong>
+          {% endif %}
+      </div>
+    </section>
+
+    <!-- GRID DE INFORMAÇÕES -->
+    <section class="grid">
+      <!-- EVOLUÇÃO INDIVIDUAL (Organizada em lista estilo histórico/timeline) -->
+      <div class="box">
+        <h3>Evolução Individual (Histórico)</h3>
+        {% if avaliacoes %}
+          <ul class="timeline-list">
+            {% for av in avaliacoes %}
+              <li class="timeline-item">
+                <div>
+                  <strong>{{ av.disciplina }}</strong><br>
+                  <small style="color: #666;"><i class="fa-regular fa-calendar"></i> {{ av.data }}</small>
+                  {% if av.observacoes %}
+                    <p style="margin: 6px 0 0 0; font-size: 0.9rem; color: #444;"><em>"{{ av.observacoes }}"</em></p>
+                  {% endif %}
+                </div>
+                <div style="text-align: right;">
+                  <span class="badge-nota">Nota: {{ av.nota }}</span>
+                  {% if av.presente == 0 %}
+                    <br><span class="badge-ausente">Ausente</span>
+                  {% endif %}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Nenhuma avaliação registrada.</p>
+        {% endif %}
+      </div>
+
+      <!-- COMPETÊNCIAS (Disciplinas e últimas notas) -->
+      <div class="box">
+        <h3>Competências (Últimas Notas por Disciplina)</h3>
+        {% if competencias %}
+          <ul class="timeline-list">
+            {% for c in competencias %}
+              <li class="timeline-item">
+                <div>
+                  <strong>{{ c.disciplina }}</strong><br>
+                  <small style="color: #666;">Média atual</small>
+                </div>
+                <div>
+                  <span class="badge-nota">{{ "%.2f"|format(c.media) }}</span>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Nenhuma avaliação registrada.</p>
+        {% endif %}
+      </div>
+    </section>
+
+    <div style="height: 600px;"></div>
+
+  </main>
+</div>
+
+</body>
+</html>
