@@ -27,8 +27,6 @@ def dashboard_coordenador():
     
     media_geral = round(media_geral_db['media'], 1) if media_geral_db and media_geral_db['media'] is not None else 0.0
 
-    # Turmas não têm mais professor responsável: lista os professores
-    # que lecionam alguma disciplina na turma (via turma_disciplinas).
     turmas = db.execute('''
         SELECT t.id, t.nome,
                GROUP_CONCAT(DISTINCT u.nome) AS professores
@@ -194,8 +192,6 @@ def adicionar_disciplina():
                 "INSERT INTO disciplinas (nome) VALUES (?)", (nome,)
             ).lastrowid
 
-        # Vincula disciplina + professor a cada turma selecionada.
-        # Se já existir o vínculo, apenas troca o professor.
         for turma_id in turmas_ids:
             db.execute('''
                 INSERT INTO turma_disciplinas (turma_id, disciplina_id, professor_id)
@@ -230,7 +226,6 @@ def relatorio_coordenador(turma_id):
     if not turma:
         abort(404)
 
-    # Busca as disciplinas e os respectivos professores desta turma
     disciplinas = db.execute('''
         SELECT d.nome, u.nome AS professor_disciplina
         FROM turma_disciplinas td
@@ -240,7 +235,6 @@ def relatorio_coordenador(turma_id):
         ORDER BY d.nome
     ''', (turma_id,)).fetchall()
 
-    # Aluno, disciplina, professor da disciplina e média do aluno nela
     alunos = db.execute('''
         SELECT a.nome AS aluno_nome,
                d.nome AS disciplina_nome,
@@ -256,7 +250,6 @@ def relatorio_coordenador(turma_id):
         ORDER BY a.nome, d.nome
     ''', (turma_id,)).fetchall()
 
-    # Média geral da turma
     media_geral_res = db.execute('''
         SELECT AVG(av.nota) as media_geral
         FROM avaliacoes av
@@ -323,7 +316,6 @@ def verTurma(turma_id):
         flash('Turma não encontrada.', 'error')
         return redirect(url_for('coordenador.dashboard_coordenador'))
 
-    # Disciplinas da turma com o professor que leciona cada uma
     disciplinas = db.execute('''
         SELECT d.id, d.nome, u.nome AS professor_disciplina
         FROM turma_disciplinas td
