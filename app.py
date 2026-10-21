@@ -17,7 +17,6 @@ def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(DATABASE)
         g.db.row_factory = sqlite3.Row
-        # Ativa o suporte a chaves estrangeiras no SQLite
         g.db.execute('PRAGMA foreign_keys = ON;')
     return g.db
 
@@ -142,7 +141,6 @@ def create_tables():
 
     db.commit()
 
-# Garante a criação das tabelas no contexto da aplicação (útil para servidores WSGI/Gunicorn)
 with app.app_context():
     create_tables()
 
