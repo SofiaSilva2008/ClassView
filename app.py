@@ -11,7 +11,7 @@ app.secret_key = os.environ.get("SECRET_KEY")
 if not app.secret_key:
     raise RuntimeError("Defina a variável de ambiente SECRET_KEY")
 
-DATABASE = 'database.db'
+DATABASE = os.environ.get('DATABASE', 'database.db')
 
 def get_db():
     if 'db' not in g:
