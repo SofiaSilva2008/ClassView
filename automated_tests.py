@@ -49,7 +49,6 @@ def limpar_banco():
 @pytest.fixture(scope="session")
 def app_server():
     """Inicializa a aplicação Flask em segundo plano."""
-    # ✅ Diretório correto (onde está o app.py)
     project_dir = Path(__file__).resolve().parent
 
     env = os.environ.copy()
@@ -65,7 +64,6 @@ def app_server():
 
     base_url = "http://localhost:5000"
 
-    # Aguarda o servidor subir
     for _ in range(20):
         try:
             import socket
